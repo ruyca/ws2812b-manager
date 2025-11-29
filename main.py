@@ -7,7 +7,7 @@ from classes import Colors, RGB
 
 neo = Pi5Neo('dev/spidev0.0', 10, 800)
 parser = argparse.ArgumentParser(description="LED loading bar")
-parser.add_argument("--color", "-c", default="blue")
+parser.add_argument("--color", "-c", default="day_light")
 
 
 def loading_bar(neo, color):
@@ -33,7 +33,9 @@ def random_rgb(neo):
 
 
 def run():
-    day_light = Colors.WARM_LIGHT
+    user_color = parser.parse_args().color
+    user_color = user_color.upper()
+    day_light = getattr(Colors, user_color, Colors.WARM_LIGHT)
     print(day_light)
     neo.fill_strip(day_light.red, day_light.green, day_light.blue)
     #neo.clear_strip()
