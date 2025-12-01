@@ -41,6 +41,8 @@ class Colors:
     PINK = RGB(255, 96, 208)
     PURPLE = RGB(128, 0, 128)
     ORANGE = RGB(255, 165, 0)
+    YELLOW = RGB(255, 255, 0)
+    CYAN = RGB(0, 255, 255)
     RANDOM = RGB(random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
 
@@ -188,6 +190,29 @@ class LedStrip:
         except KeyboardInterrupt:
             self.clear()
 
+    def interpolate(self, color_start: RGB, color_end: RGB, factor: float) -> RGB:
+        r_m =  int(color_start.red + (color_end.red - color_start.red)*factor)
+        g_m =  int(color_start.green + (color_end.green - color_start.green)*factor)
+        b_m =  int(color_start.blue + (color_end.blue - color_start.blue)*factor)
+        
+        return RGB(r_m, g_m, b_m)
+
+    def gradient_shift(self, color_start: RGB = Colors.RED, 
+                        color_end: RGB = Colors.BLUE, delay: float = 0.1 ): 
+        try: 
+            step = 1 / (self.num_leds - 1) 
+            steps = [i*step for i in range(0, self.num_leds)]
+            gradient = [self.interpolate(color_start=color_start,color_end=color_end, factor=j) for j in steps]
+            while True:
+                for idx, color in enumerate(gradient): 
+                    self.set_led(idx, color)
+                self.update()
+                # Shift list to the right
+                gradient = [gradient[-1]] + gradient[:-1]
+                time.sleep(delay)
+        except KeyboardInterrupt:
+            self.clear()
+ 
 print(type(Colors.RED))
 led_strip = LedStrip()
 print(led_strip.num_leds)
