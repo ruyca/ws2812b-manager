@@ -41,6 +41,7 @@ class Colors:
     PINK = RGB(255, 96, 208)
     PURPLE = RGB(128, 0, 128)
     ORANGE = RGB(255, 165, 0)
+    RANDOM = RGB(random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
 
 class LedStrip:
@@ -91,10 +92,9 @@ class LedStrip:
 
     def flashing_animation(self, delay: float = 0.3, duration: int = 15):
         end_time = time.time() + duration
-        colors = [Colors.RED, Colors.GREEN, Colors.BLUE, Colors.WHITE, Colors.WARM_LIGHT, Colors.PINK, Colors.PURPLE, Colors.ORANGE]
         try:
             while time.time() < end_time:
-                color = random.choice(colors)
+                color = RGB(random.randint(0,255), random.randint(0,255), random.randint(0,255))
                 self.fill(color)
                 self.update()
                 time.sleep(delay)
@@ -131,6 +131,60 @@ class LedStrip:
                 self.update()
             # Pomodoro finished
             self.flashing_animation()
+        except KeyboardInterrupt:
+            self.clear()
+
+    def firework_simulation(self, delay=0.05):
+        try: 
+            while True: 
+                center = random.randint(0, self.num_leds - 1)
+                color = RGB(random.randint(0,255), random.randint(0,255), random.randint(0,255))
+                print(color)
+                # Expand from center
+                for radius in range(self.num_leds):
+                    self.clear()
+                    if center - radius >= 0:
+                        self.set_led(center - radius, color)
+                    if center + radius < self.num_leds:
+                        self.set_led(center + radius, color)
+                    self.update()
+                    time.sleep(delay)
+        except KeyboardInterrupt:
+            self.clear()
+
+    def breathing_animation(self, color: RGB = Colors.WARM_LIGHT, steps: int = 20, delay: float = 0.05):
+        try:
+            high = [i / steps for i in range(1, steps + 1)] 
+            low = [j / steps for j in range(steps, 0, -1)]
+            bright_levels = high + low
+            while True:
+                for b_level in bright_levels:
+                    new_color = color.dim_color(b_level)
+                    self.fill(new_color)
+                    self.update()
+                    time.sleep(delay)
+        except KeyboardInterrupt:
+            self.clear()
+
+    def sparkle_animation(self, base_color: RGB = None,
+                          sparkle_color: RGB = Colors.WHITE, sparkle_count: int = 2,
+                           delay: float = 0.1, steps: int = 5):
+        if base_color is None: 
+            base_color = Colors.BLUE.dim_color(0.3)
+
+        high = [i / steps for i in range(1, steps + 1)]
+        low = [j / steps for j in range(steps - 1, 0, -1)]
+        bright_level = high + low
+        try:
+            while True:  
+                self.fill(base_color)
+                indices = random.sample(range(self.num_leds), k=sparkle_count)
+                for b in bright_level:
+                    color = sparkle_color.dim_color(b)
+                    for idx in indices:
+                        self.set_led(idx, color)
+                    self.update()
+                    time.sleep(delay)
         except KeyboardInterrupt:
             self.clear()
 
