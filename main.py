@@ -27,8 +27,27 @@ def get_color(hex: str) -> RGB:
     c = RGB.from_hex(hex)
     return c
 
-def run_animation():
-    pass
+def run_animation(strip: LedStrip, animation_type: str) -> None:
+    if animation_type == 'firework':
+        strip.firework_simulation()
+    elif animation_type == 'breathing':
+        strip.breathing_animation(color=Colors.BLUE)
+    elif animation_type == 'sparkle':
+        strip.sparkle_animation()
+    elif animation_type == 'gradient':  
+        strip.gradient_shift_animation()
+    elif animation_type == 'loading':
+        strip.loading_animation()
+    elif animation_type == 'flashing':
+        strip.flashing_animation()
+    elif animation_type == 'moving':
+        strip.moving_colors_animation()
+    elif animation_type == 'pomodoro':
+        strip.pomodoro_animation()
+    elif animation_type == 'random':
+        strip.random_rgb_animation(leds_per_frame=3, delay=0.2)
+    elif animation_type == 'all':
+        show_all_animations(strip)
 
 def display_color(strip: LedStrip, color: RGB) -> None:
     print(f"Displaying static color: {color}")

@@ -150,7 +150,7 @@ class LedStrip:
                     if center + radius < self.num_leds:
                         self.set_led(center + radius, color)
                     self.update()
-                    time.sleep(delay)
+                    #time.sleep(delay)
         except KeyboardInterrupt:
             self.clear()
 
@@ -169,7 +169,7 @@ class LedStrip:
             self.clear()
 
     def sparkle_animation(self, base_color: RGB = None,
-                          sparkle_color: RGB = Colors.WHITE, sparkle_count: int = 2,
+                          sparkle_color: RGB = Colors.WHITE, sparkle_count: int = 50,
                            delay: float = 0.1, steps: int = 5):
         if base_color is None: 
             base_color = Colors.BLUE.dim_color(0.3)
@@ -198,7 +198,7 @@ class LedStrip:
         return RGB(r_m, g_m, b_m)
 
     def gradient_shift_animation(self, color_start: RGB = Colors.RED, 
-                        color_end: RGB = Colors.BLUE, delay: float = 0.1 ): 
+                        color_end: RGB = Colors.BLUE, delay: float = 0.05 ): 
         try: 
             step = 1 / (self.num_leds - 1) 
             steps = [i*step for i in range(0, self.num_leds)]
