@@ -106,7 +106,7 @@ ls /dev/spidev*
 ### 2. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ws2812b-rpi5-controller.git
+git clone https://github.com/ruyca/ws2812b-manager.git
 cd ws2812b-rpi5-controller
 ```
 
