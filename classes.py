@@ -197,7 +197,7 @@ class LedStrip:
         
         return RGB(r_m, g_m, b_m)
 
-    def gradient_shift(self, color_start: RGB = Colors.RED, 
+    def gradient_shift_animation(self, color_start: RGB = Colors.RED, 
                         color_end: RGB = Colors.BLUE, delay: float = 0.1 ): 
         try: 
             step = 1 / (self.num_leds - 1) 
@@ -209,6 +209,45 @@ class LedStrip:
                 self.update()
                 # Shift list to the right
                 gradient = [gradient[-1]] + gradient[:-1]
+                time.sleep(delay)
+        except KeyboardInterrupt:
+            self.clear()
+
+    def moving_colors_animation(self, colors: list[RGB] = [Colors.RED, Colors.GREEN, Colors.BLUE], 
+                      delay: float = 0.2):
+        try:
+            color_count = len(colors)
+            while True:
+                for i in range(self.num_leds):
+                    self.set_led(i, colors[i % color_count])
+                self.update()
+                # Shift colors to the right
+                colors = [colors[-1]] + colors[:-1]
+                time.sleep(delay)
+        except KeyboardInterrupt:
+            self.clear()
+
+    def build_state(self, colors: list[RGB]) -> list[RGB]:
+        state = []
+        color_count = len(colors)
+        base  = self.num_leds // color_count 
+        remain = self.num_leds % color_count
+        for color in colors:
+            state.extend([color] * base)
+        for i in range(remain):
+            state.append(colors[i])
+        return state
+
+    def moving_colors2_animation(self, colors: list[RGB] = [Colors.RED, Colors.GREEN, Colors.BLUE], 
+                      delay: float = 0.2):
+        try:
+            state = self.build_state(colors)
+            while True:
+                for i, colro in enumerate(state):
+                    self.set_led(i, state[i])
+                self.update()
+                # Shift colors to the left
+                state = state[1:] + [state[0]]
                 time.sleep(delay)
         except KeyboardInterrupt:
             self.clear()
