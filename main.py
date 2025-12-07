@@ -5,7 +5,7 @@ import random
 from classes import Colors, RGB, LedStrip
 
 def show_all_animations(strip: LedStrip):
-    strip.random_rgb_animation(leds_per_frame=3, delay=0.2)
+    strip.shifting_rgb_animation(leds_per_frame=3, delay=0.2)
     strip.loading_animation()
     strip.flashing_animation()
     strip.firework_simulation()
@@ -44,8 +44,8 @@ def run_animation(strip: LedStrip, animation_type: str) -> None:
         strip.moving_colors_animation()
     elif animation_type == 'pomodoro':
         strip.pomodoro_animation()
-    elif animation_type == 'random':
-        strip.random_rgb_animation(leds_per_frame=3, delay=0.2)
+    elif animation_type == 'shifting':
+        strip.shifting_rgb_animation(groups=12, delay=0.1)
     elif animation_type == 'all':
         show_all_animations(strip)
 
@@ -87,10 +87,10 @@ def run():
     mode_group.add_argument('-a', '--animation',
                            type=str,
                            choices=['firework', 'breathing', 'sparkle', 'gradient', 
-                                    'loading', 'flashing', 'moving', 'pomodoro', 'random', 'all'],
+                                    'loading', 'flashing', 'moving', 'pomodoro', 'shifting', 'all'],
                            metavar='TYPE',
                            help="Run an animation. Choices: firework, breathing, sparkle, "
-                                "gradient, loading, flashing, moving, pomodoro, random, all")
+                                "gradient, loading, flashing, moving, pomodoro, shifting, all")
 
     args = parser.parse_args()
 

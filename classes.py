@@ -77,18 +77,28 @@ class LedStrip:
         self.fill(Colors.OFF)
         self.update()
 
-    def random_rgb_animation(self, leds_per_frame: int = 3, delay: float = 0.1):
-        """Displays random red, green or blue color accross the strip"""
+    def shifting_rgb_animation(self, groups: int = 12, delay: float = 0.1):
+        """
+        Displays shifting RGB colors accross the strip, in a grouped manner.
+        Each group consists of red, green, and blue LEDs.
+        Each subgroup is equal to num_leds / groups (300 / 12 = 25 LEDs per color).
+        """
         n = self.num_leds
         rgb = [Colors.RED, Colors.GREEN, Colors.BLUE]
         try:
+            # Build the state
+            state = [Colors.OFF] * n
+            for i in range(n):
+                position_in_group = i % 12 # Where am I within my 12-LED super-group? (0-11)
+                color_index = position_in_group // 4 # Which color block? (0, 1, or 2)
+                state[i] = rgb[color_index] 
             while True: 
-                colors = random.choices(rgb,k=leds_per_frame)
-                indices = random.sample(range(n), leds_per_frame)
-                for i in range(leds_per_frame):
-                    self.set_led(indices[i], colors[i])
+                for idx, color in enumerate(state): 
+                    self.set_led(idx, color)
                 self.update()
-                time.sleep(delay)
+                # Shift list to the right
+                state = [state[-1]] + state[:-1]
+                time.sleep(delay) 
         except KeyboardInterrupt:
             self.clear()
 
@@ -113,7 +123,7 @@ class LedStrip:
                 for i in range(self.num_leds):
                     self.set_led(i, color)
                     self.update()
-                    time.sleep(delay)
+                    #time.sleep(delay)
                 self.clear()
         except KeyboardInterrupt: 
             self.clear()
@@ -137,20 +147,42 @@ class LedStrip:
             self.clear()
 
     def firework_simulation(self, delay=0.05):
-        try: 
-            while True: 
+        try:
+            while True:
                 center = random.randint(0, self.num_leds - 1)
                 color = RGB(random.randint(0,255), random.randint(0,255), random.randint(0,255))
-                print(color)
-                # Expand from center
-                for radius in range(self.num_leds):
-                    self.clear()
-                    if center - radius >= 0:
-                        self.set_led(center - radius, color)
-                    if center + radius < self.num_leds:
-                        self.set_led(center + radius, color)
+                # Keep track of which indices are currently lit so we don't clear the whole strip
+                prev_indices = set()
+                # radius should go until edges from center
+                max_radius = max(center, self.num_leds - 1 - center)
+                for radius in range(max_radius + 1):
+                    new_indices = set()
+                    left = center - radius
+                    right = center + radius
+                    if 0 <= left < self.num_leds:
+                        new_indices.add(left)
+                    if 0 <= right < self.num_leds:
+                        new_indices.add(right)
+
+                    # Turn off LEDs that were lit previously but are not part of this step
+                    to_clear = prev_indices - new_indices
+                    for idx in to_clear:
+                        self.set_led(idx, Colors.OFF)
+
+                    # Light the new LEDs for this radius (skip ones already lit)
+                    to_light = new_indices - prev_indices
+                    for idx in to_light:
+                        self.set_led(idx, color)
+
+                    prev_indices = new_indices
                     self.update()
-                    #time.sleep(delay)
+                    time.sleep(delay)
+
+                # After the explosion, clear remaining lit LEDs
+                for idx in prev_indices:
+                    self.set_led(idx, Colors.OFF)
+                self.update()
+                time.sleep(delay)
         except KeyboardInterrupt:
             self.clear()
 
