@@ -23,3 +23,17 @@ offButton.addEventListener("click", function(){
         }
     })
 });
+
+const colorInput = document.querySelector("#color");
+const sendBtn = document.querySelector("#send");
+
+sendBtn.addEventListener("click", () =>{
+    console.log(colorInput.value);
+    fetch("/color", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            color: colorInput.value
+        })
+    });
+});

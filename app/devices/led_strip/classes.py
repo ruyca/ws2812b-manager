@@ -12,6 +12,22 @@ class RGB:
     def __repr__(self):
         return f"RGB({self.red}, {self.green}, {self.blue})"
     
+    def __eq__(self, other):
+        if not isinstance(other, RGB):
+            return NotImplemented
+        return(
+            self.red == other.red and
+            self.green == other.green and
+            self.blue == other.blue
+        )
+    
+    def to_hex(self):
+        r = hex(self.red)[2:].zfill(2)
+        g = hex(self.green)[2:].zfill(2)
+        b = hex(self.blue)[2:].zfill(2)
+
+        return f"#{r}{g}{b}"
+    
     @classmethod
     def from_hex(cls, hex_string: str) -> "RGB": 
         hex_string = hex_string.lstrip("#")
@@ -29,6 +45,9 @@ class RGB:
             green=int(self.green * factor),
             blue=int(self.blue * factor)
         )
+
+    def to_dict(self):
+        return {"red": self.red, "green": self.green, "blue": self.blue}
 
 
 class Colors: 
@@ -59,6 +78,23 @@ class LedStrip:
         state_copy = self._state.copy()
         return state_copy
     
+    def power_status(self):
+        state = self.state # [RGB(128,128,128), ...]
+        led_is_on = [True if (led.red != 0 or led.green != 0 or led.blue != 0) else False for led in state]
+
+        return any(led_is_on) 
+    
+    def uniform_color(self): 
+        state = self.state
+        first = state[0] # RGB(0,0,0)
+        same_color = [first == led for led in state]
+        first_rgb = first.to_dict() # RGB instnace -> dict
+        first_hex = first.to_hex() # RGB instance -> str
+        if all(same_color):
+            return first_rgb, first_hex
+        else:
+            return None 
+
     def set_led(self, index: int, rgb_color: RGB):
         if index < 0 or index >= self.num_leds: 
             raise IndexError("LED index out of range")

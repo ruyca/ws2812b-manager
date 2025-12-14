@@ -7,10 +7,16 @@
     <title>RGB LED Strip Controller</title>
 </head>
 <body>
-    <h1>RGB LED Controller</h1>
-    <p>Here we will controll the RGB LedStrip</p>
+    <h3>RGB LED Controller</h3>
     <button id="on-button">ON</button>
     <button id="off-button">OFF</button>
+
+    <form>
+        <label for="color">Color: </label>
+        <input type="color" name="color" id="color">
+        <button id="send">Select</button>
+    </form>
+
     <script src="/static/js/main.js"></script>
 
 </body>
