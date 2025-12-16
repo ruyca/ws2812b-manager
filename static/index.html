@@ -7,15 +7,35 @@
     <title>RGB LED Strip Controller</title>
 </head>
 <body>
-    <h3>RGB LED Controller</h3>
-    <button id="on-button">ON</button>
-    <button id="off-button">OFF</button>
 
-    <form>
-        <label for="color">Color: </label>
-        <input type="color" name="color" id="color">
-        <button id="send">Select</button>
-    </form>
+        <h1>RGB LED Controller</h1>
+
+    <div class="power">
+        <button id="on-button">ON</button>
+        <button id="off-button">OFF</button>
+    </div>
+
+    <div class="color-selection">
+        <div class="color-selection-picker">
+        <!-- Color picker-->
+            <label for="color">Color: </label>
+            <input type="color" name="color" id="color">
+            <button id="send">Select</button>
+        </div>
+        <div class="color-selection-button">
+            <!-- preset colors-->
+            <button id="preset-1"></button>
+            <button id="preset-2"></button>
+            <button id="preset-3"></button>
+            <button id="preset-4"></button>
+        </div>
+    </div>
+
+    <div class="animations">
+
+    </div>
+
+        
 
     <script src="/static/js/main.js"></script>
 

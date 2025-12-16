@@ -1,3 +1,93 @@
 body {
-    background-color: cornflowerblue;
+    background-color: #111827;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:#e5e7eb;
+    font-weight: 600;
+}
+
+.power{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:30px;
+
+}
+
+.power button{
+    width: 90px;
+}
+
+.color-selection{
+    margin-top:30px
+}
+
+.color-selection-picker{
+    
+}
+
+.color-selection button{
+    width: 60px;
+    height: 35px;
+    font-size: 14px;
+}
+
+#preset-1{ 
+    background-color: #01c7fc;
+    width:60px;
+    height:60px;
+    border: 0px;
+    border-radius: 50%;
+    padding: 0;
+    line-height: 50px;
+    text-align: center;
+}
+
+#preset-2{
+    background-color: #ff4b0f;
+    border: 0px;
+    padding: 0;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+#preset-3{
+    background-color: #ff0000;
+    border: 0px;
+    padding: 0;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+#preset-4{
+    background-color: #f72b98;
+    border: 0px;
+    padding: 0;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+button { 
+    text-align: center;
+    border: 1px solid #374151;
+    background-color: #1f2937;
+    border-radius: 8px;
+    padding: 5px;
+    width: 60px;
+    height: 60px;
+    font-size: 16px; 
+    font-weight: bold;
+    color: #e5e7eb;
 }
