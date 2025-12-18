@@ -37,3 +37,59 @@ sendBtn.addEventListener("click", () =>{
         })
     });
 });
+
+const colorPreset1 = "#01c7fc";
+const preset1Btn = document.getElementById("preset-1");
+
+preset1Btn.addEventListener("click", () => {
+    console.log(colorPreset1);
+    fetch("/color", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            color: colorPreset1
+        })
+    });
+});
+
+const colorPreset2 = "#ff4b0f";
+const preset2Btn = document.getElementById("preset-2");
+
+preset2Btn.addEventListener("click", () => {
+    console.log(colorPreset2);
+    fetch("/color", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            color: colorPreset2
+        })
+    });
+});
+
+const colorPreset3 = "#ff0000";
+const preset3Btn = document.getElementById("preset-3");
+
+preset3Btn.addEventListener("click", () => {
+    console.log(colorPreset3);
+    fetch("/color", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            color: colorPreset3
+        })
+    });
+});
+
+const colorPreset4 = "#f72b98";
+const preset4Btn = document.getElementById("preset-4");
+
+preset4Btn.addEventListener("click", () => {
+    console.log(colorPreset4);
+    fetch("/color", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            color: colorPreset4
+        })
+    });
+});
